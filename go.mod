@@ -1,6 +1,6 @@
 module github.com/olivermking/wasmamba
 
-go 1.19
+go 1.20
 
 require github.com/fermyon/spin/sdk/go v1.3.0
 

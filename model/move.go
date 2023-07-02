@@ -13,29 +13,29 @@ func GetMoves() []Move {
 	return []Move{Up, Down, Left, Right}
 }
 
-func (m Move) NextCoord(c *Coord) *Coord {
+func (m Move) NextCoord(c Coord) Coord {
 	switch m {
 	case Up:
-		return &Coord{
+		return Coord{
 			X: c.X,
 			Y: c.Y + 1,
 		}
 	case Down:
-		return &Coord{
+		return Coord{
 			X: c.X,
 			Y: c.Y - 1,
 		}
 	case Left:
-		return &Coord{
+		return Coord{
 			X: c.X - 1,
 			Y: c.Y,
 		}
 	case Right:
-		return &Coord{
+		return Coord{
 			X: c.X + 1,
 			Y: c.Y,
 		}
 	}
 
-	return nil
+	return Coord{}
 }

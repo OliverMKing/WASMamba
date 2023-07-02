@@ -1,7 +1,7 @@
 package snake
 
 import (
-	"fmt"
+	"log"
 	"math/rand"
 
 	"github.com/olivermking/wasmamba/model"
@@ -10,7 +10,7 @@ import (
 const (
 	apiVersion = "1"
 	author     = "OliverMKing"
-	color      = "#000000" // black
+	color      = "#161F24" // black
 
 	// customizations from https://play.battlesnake.com/customizations
 	head = "tongue"
@@ -38,7 +38,7 @@ func (s *snake) Move(m model.GameReq) *model.MoveResp {
 
 	moves := validMoves(id, model.GameReqSet(m))
 	if len(moves) == 0 {
-		fmt.Println("No valid moves")
+		log.Print("No valid moves")
 		return &model.MoveResp{
 			Move: model.Down,
 		}

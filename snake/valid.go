@@ -10,8 +10,8 @@ func validMoves(id string, g model.GameReqS) []model.Move {
 
 	invalid := invalidSpaces(g)
 	for _, opt := range opts {
-		move := opt.NextCoord(&g.You.Head)
-		if _, ok := invalid[*move]; !ok {
+		move := opt.NextCoord(g.You.Head)
+		if _, ok := invalid[move]; !ok {
 			if inBounds(move, g.Board.Height, g.Board.Width) {
 				ret = append(ret, opt)
 			}
@@ -50,7 +50,7 @@ func invalidSpaces(g model.GameReqS) model.CoordS {
 
 var _ spaces = invalidSpaces
 
-func inBounds(c *model.Coord, height, width int) bool {
+func inBounds(c model.Coord, height, width int) bool {
 	if c.X >= width || c.X < 0 {
 		return false
 	}
