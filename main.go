@@ -12,8 +12,9 @@ import (
 )
 
 const (
-	contentType     = "Content-Type"
-	applicationJson = "application/json"
+	contentType           = "Content-Type"
+	applicationJson       = "application/json"
+	internalServiceErrMsg = "internal service error"
 )
 
 type Snake interface {
@@ -38,11 +39,12 @@ func init() {
 
 func info(s Snake) spinhttp.RouterHandle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-		w.Header().Set(contentType, applicationJson)
 		if err := json.NewEncoder(w).Encode(s.Info()); err != nil {
+			http.Error(w, internalServiceErrMsg, http.StatusInternalServerError)
 			log.Printf("failed to encode: %s", err)
 			return
 		}
+		w.Header().Set(contentType, applicationJson)
 	}
 }
 
@@ -50,16 +52,16 @@ func move(s Snake) spinhttp.RouterHandle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		var req model.GameReq
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			log.Printf("failed to decode: %s", err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
-		w.Header().Set(contentType, applicationJson)
 		if err := json.NewEncoder(w).Encode(s.Move(req)); err != nil {
+			http.Error(w, internalServiceErrMsg, http.StatusInternalServerError)
 			log.Printf("failed to encode: %s", err)
 			return
 		}
+		w.Header().Set(contentType, applicationJson)
 	}
 }
 
