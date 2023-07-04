@@ -3,9 +3,6 @@ name: deploy
 on:
   workflow_dispatch:
 
-env:
-  IMAGE_NAME: wasmamba
-    
 jobs:
   image:
     name: push image
@@ -33,7 +30,7 @@ jobs:
           registry: ghcr.io 
           registry_username: ${{ github.actor }} 
           registry_password: ${{ secrets.GITHUB_TOKEN }} 
-          registry_reference: "ghcr.io/${{ github.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          registry_reference: "ghcr.io/${{ github.REPOSITORY }}:${{ github.sha }}"
 
 
 
