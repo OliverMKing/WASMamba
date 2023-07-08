@@ -42,6 +42,9 @@ jobs:
     name: deploy to cluster
     runs-on: ubuntu-latest
     environment: production
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: azure login
         uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2 # v1.4.6
