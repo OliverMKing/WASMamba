@@ -11,7 +11,7 @@ output "tenant_id" {
 }
 
 output "client_id" {
-  value = data.azuread_client_config.current.client_id
+  value = azuread_application.app.application_id
 }
 
 output "subscription_id" {
