@@ -13,4 +13,5 @@ allowed_http_hosts = []
 route = "/..."
 [component.build]
 command = "tinygo build -target=wasi -gc=leaking -no-debug -o main.wasm main.go"
-watch = ["**/*.go", "go.mod"]
+# watch doesn't work yet on AKS https://github.com/fermyon/spin/issues/1069#issuecomment-1587585103
+# watch = ["**/*.go", "go.mod"] 

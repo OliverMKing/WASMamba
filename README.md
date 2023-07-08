@@ -12,5 +12,4 @@ Run the snake with `spin build` then `spin up`. Run the server with `battlesnake
 
 Infrastructure can be provisioned by running `terraform init && terraform apply` in the `tf` directory.
 
-
-Ocassionally, we need to bump dependencies. Install the [spin k8s plugin](https://github.com/chrismatteson/spin-plugin-k8s). Run `spin k8s scaffold wasmamba -o` to get the latest Dockerfile and manifests. Compare the manifests to the current [manifests](./manifests/).
+Ocassionally, we may need to update manifests. Install the [spin k8s plugin](https://github.com/chrismatteson/spin-plugin-k8s). Run `spin k8s scaffold wasmamba -o` to get the latest Dockerfile and manifests. Compare the manifests to the current [manifests](./manifests/). Additionally, see [spin kubernetes docs](https://developer.fermyon.com/spin/kubernetes) for latest best practices.
