@@ -1,12 +1,12 @@
 spin_manifest_version = "1"
 authors = ["Oliver King <olivermerkleyking@gmail.com>"]
 description = ""
-name = "battlesnake"
+name = "wasmamba"
 trigger = { type = "http", base = "/" }
 version = "0.1.0"
 
 [[component]]
-id = "battlesnake"
+id = "wasmamba"
 source = "main.wasm"
 allowed_http_hosts = []
 [component.trigger]
