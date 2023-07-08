@@ -7,12 +7,13 @@ jobs:
   image:
     name: push image
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: checkout repository
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
       - name: setup go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
         with:
           go-version: "1.20"
 
@@ -36,6 +37,38 @@ jobs:
           registry_username: ${{ github.actor }} 
           registry_password: ${{ secrets.GITHUB_TOKEN }} 
           registry_reference: "ghcr.io/${{ steps.repo.outputs.REPO }}:${{ github.sha }}"
+
+  cluster:
+    name: deploy to cluster
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: azure login
+        uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2 # v1.4.6
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: setup kubelogin
+        uses: azure/use-kubelogin@e1a8161c479fd5debcdec63db9a2c29f52ce6f5e # v1
+        with:
+          kubelogin-version: 'v0.0.30'
+
+      - name: get kubeconfig
+        uses: azure/aks-set-context@4edaee69f820359371ee8bc85189ac03a21d3a58 # v3.2
+        with:
+          resource-group: battlesnake
+          cluster-name: cluster
+          admin: false
+          use-kubelogin: true
+
+      - name: setup kubectl
+        uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8 # v3.2
+      
+      - run: kubectl get po
+
+
 
 
 
