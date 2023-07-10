@@ -1,9 +1,10 @@
 package snake
 
 import (
-	"log"
+	"context"
 	"math/rand"
 
+	"github.com/olivermking/wasmamba/logger"
 	"github.com/olivermking/wasmamba/model"
 )
 
@@ -23,7 +24,7 @@ func New() *snake {
 	return &snake{}
 }
 
-func (s *snake) Info() *model.InfoResp {
+func (s *snake) Info(_ context.Context) *model.InfoResp {
 	return &model.InfoResp{
 		ApiVersion: apiVersion,
 		Author:     author,
@@ -33,12 +34,13 @@ func (s *snake) Info() *model.InfoResp {
 	}
 }
 
-func (s *snake) Move(m model.GameReq) *model.MoveResp {
-	id := m.You.Id
+func (s *snake) Move(ctx context.Context, m model.GameReq) *model.MoveResp {
+	logger := logger.FromContext(ctx)
 
+	id := m.You.Id
 	moves := validMoves(id, model.GameReqSet(m))
 	if len(moves) == 0 {
-		log.Print("No valid moves")
+		logger.Warn("no valid moves")
 		return &model.MoveResp{
 			Move: model.Down,
 		}
