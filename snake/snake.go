@@ -15,7 +15,7 @@ const (
 
 	// customizations from https://play.battlesnake.com/customizations
 	head = "tongue"
-	tail = "block-bum"
+	tail = "sharp"
 )
 
 type snake struct{}
