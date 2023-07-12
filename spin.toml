@@ -1,4 +1,4 @@
-spin_manifest_version = "1"
+spin_version = "1" # this is needed instead of spin_manifest_version until AKS Wasi Nodepool updates their Spin shim
 authors = ["Oliver King <olivermerkleyking@gmail.com>"]
 description = ""
 name = "wasmamba"
