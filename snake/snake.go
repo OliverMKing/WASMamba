@@ -14,8 +14,8 @@ const (
 	color      = "#161F24" // black
 
 	// customizations from https://play.battlesnake.com/customizations
-	head = "tongue"
-	tail = "sharp"
+	head = "alligator"
+	tail = "alligator"
 )
 
 type snake struct{}
