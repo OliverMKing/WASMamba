@@ -46,12 +46,12 @@ func commonReq(h httprouter.Handle) httprouter.Handle {
 		start := time.Now()
 		ctx := r.Context()
 		ctx = logger.WithRequest(ctx, r)
-		logger := logger.FromContext(ctx)
-		defer logger.Sync()
+		l := logger.FromContext(ctx)
+		defer l.Sync()
 
-		logger.Info("starting to handle request")
+		l.Info("starting to handle request")
 		defer func() {
-			logger.Info("finished handling request", zap.String("responseTime", time.Since(start).String()))
+			l.Info("finished handling request", zap.String("responseTime", time.Since(start).String()))
 		}()
 
 		h(w, r.WithContext(ctx), p)
@@ -62,10 +62,8 @@ func info(s Snake) spinhttp.RouterHandle {
 	return commonReq(
 		func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			ctx := r.Context()
-			l := logger.FromContext(ctx)
-
 			if err := json.NewEncoder(w).Encode(s.Info(ctx)); err != nil {
-				l.Error(fmt.Sprintf("failed to encode response: %s", err.Error()))
+				logger.FromContext(ctx).Error(fmt.Sprintf("failed to encode response: %s", err.Error()))
 				http.Error(w, internalServiceErrMsg, http.StatusInternalServerError)
 				return
 			}
@@ -78,18 +76,17 @@ func move(s Snake) spinhttp.RouterHandle {
 	return commonReq(
 		func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			ctx := r.Context()
-			l := logger.FromContext(ctx)
 
 			var game model.GameReq
 			if err := json.NewDecoder(r.Body).Decode(&game); err != nil {
-				l.Error(fmt.Sprintf("failed to decode request: %s", err.Error()))
+				logger.FromContext(ctx).Error(fmt.Sprintf("failed to decode request: %s", err.Error()))
 				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
 
 			ctx = logger.WithGame(ctx, game)
 			if err := json.NewEncoder(w).Encode(s.Move(ctx, game)); err != nil {
-				l.Error(fmt.Sprintf("failed to encode response: %s", err.Error()))
+				logger.FromContext(ctx).Error(fmt.Sprintf("failed to encode response: %s", err.Error()))
 				http.Error(w, internalServiceErrMsg, http.StatusInternalServerError)
 				return
 			}

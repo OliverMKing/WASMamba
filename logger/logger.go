@@ -11,6 +11,9 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+// we could use an interface like go-logr/logr or the one introduced in Go 1.21 slog
+// but those are slower than zap and performance is preferable here
+
 type ctxKey struct{}
 
 var (
