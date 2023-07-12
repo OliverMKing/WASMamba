@@ -11,7 +11,7 @@ import (
 const (
 	apiVersion = "1"
 	author     = "OliverMKing"
-	color      = "#161F24" // black
+	color      = "#74e4bc" // spin green
 
 	// customizations from https://play.battlesnake.com/customizations
 	head = "alligator"
